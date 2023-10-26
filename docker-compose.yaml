@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  backend:
+    build: backend
+    restart: unless-stopped
+    container_name: backend
+    ports:
+      - 55555:55555
+    networks:
+      example-network:
+        ipv4_address: 172.16.238.10
+    environment:
+      - OPENAI_KEY=
+
+  frontend:
+    build: frontend
+    restart: unless-stopped
+    container_name: frontend
+    ports:
+      - 55556:55556
+    networks:
+      example-network:
+        ipv4_address: 172.16.238.11
+
+networks:
+  example-network:
+    name: example-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
